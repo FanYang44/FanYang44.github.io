@@ -37,35 +37,40 @@
 </footer><!-- /.post-info -->      <h1>My very first blog</h1>
 <p>The article is written with Markdown. The idea is firstly, edit the .md file in <strong>Typora</strong> which is a very powerful editor for many kinds of programming language. Secondly, I use the Pelican, a <em>static site generator</em> powered by Python, to convert the .md file into .html file. Before the last step, I am supposed to ensure that the my own github personal page is ready to use. Finally, the .html file should be able to be pushed to my github website as a part of my blog.</p>
 <h2>Steps</h2>
-<ol>
+<ul>
 <li>Create a working directory for my blog.</li>
-</ol>
-<p><code>mkdir blog
+</ul>
+<p><code>shell
+   mkdir blog
    cd bllog</code></p>
-<ol>
+<ul>
 <li>Use virtualenv to create an env.</li>
-</ol>
-<p><code>virtualenv env
+</ul>
+<p><code>shell
+   virtualenv env
    source env/bin/activate # Activate the env</code></p>
-<ol>
+<ul>
 <li>Use pip to install Pelican and Markdown.</li>
-</ol>
-<p><code>pip install pelican
+</ul>
+<p><code>shell
+   pip install pelican
    pip install markdown</code></p>
-<ol>
+<ul>
 <li>Create a pelican skeleton via <code>pelican-quickstart</code> command which help me set up pelican config by asking multiple questions.</li>
-</ol>
-<p><code>pelican-quickstart</code></p>
-<ol>
+</ul>
+<p><code>shell
+   pelican-quickstart</code></p>
+<ul>
 <li>Move my .md file into content directory. One thing to mention is that the .md file must have a header to allow pelican to recognize.</li>
-</ol>
-<p><code># One example of the header from pelican documentation
+</ul>
+<p><code>shell
+   # One example of the header from pelican documentation
    Title: My First Review
    Date: 2010-12-03 10:20
    Category: Review</code></p>
-<ol>
+<ul>
 <li>Have a look at the local output.</li>
-</ol>
+</ul>
 <p>```
    # Under blog/ directory
    pelican content # generate static site under output/ directory  according to content </p>
@@ -74,11 +79,12 @@
    <code>``
 If there is no error reported, go to 127.0.0.1:8000 via web browser.
 ​Type in</code>ctrl + c` to terminate this service. </p>
-<ol>
+<ul>
 <li>Upload the genetated static site to github pages. First set up a github repository with username.github.io as <code>Repository name</code>.
-  Under output/ directory,  add/commit changes.</li>
-</ol>
-<p><code>git init
+    Under output/ directory,  add/commit changes.</li>
+</ul>
+<p><code>shell
+  git init
   git add .
   git commit -m "first commit"
   git remote add origin git@github.com:uesrname/username.github.io.git
@@ -101,8 +107,8 @@ If there is no error reported, go to 127.0.0.1:8000 via web browser.
                         <h2>social</h2>
                         <ul>
 
-                            <li><a href="#">You can add links in your config file</a></li>
                             <li><a href="https://github.com/FanYang44">github</a></li>
+                            <li><a href="#">You can add links in your config file</a></li>
                             <li><a href="#">Another social link</a></li>
                         </ul>
                 </div><!-- /.social -->
