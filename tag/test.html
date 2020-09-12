@@ -4,103 +4,114 @@
         <meta charset="utf-8" />
         <meta name="generator" content="Pelican" />
         <title>Fan Yang - test</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="https://fanyang44.github.io/theme/css/main.css" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Fan Yang</a></h1>
+                <h1><a href="https://fanyang44.github.io/">Fan Yang</a></h1>
                 <nav><ul>
-                    <li><a href="/category/posts.html">posts</a></li>
+                    <li><a href="https://fanyang44.github.io/category/posts.html">posts</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/posts/2020/Aug/28/First blog/">First test</a></h1>
+                    <h1 class="entry-title"><a href="https://fanyang44.github.io/posts/2020/Aug/28/First blog/">First test</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2020-08-28T00:00:00-04:00">
                 Published: Fri 28 August 2020
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/fan-yang.html">Fan Yang</a>
+                By                         <a class="url fn" href="https://fanyang44.github.io/author/fan-yang.html">Fan Yang</a>
         </address>
-<p>In <a href="/category/posts.html">posts</a>.</p>
-<p>tags: <a href="/tag/test.html">test</a> </p>
+<p>In <a href="https://fanyang44.github.io/category/posts.html">posts</a>.</p>
+<p>tags: <a href="https://fanyang44.github.io/tag/test.html">test</a> </p>
 </footer><!-- /.post-info --><h1>My very first blog</h1>
 <p>The article is written with Markdown. The idea is firstly, edit the .md file in <strong>Typora</strong> which is a very powerful editor for many kinds of programming language. Secondly, I use the Pelican, a <em>static site generator</em> powered by Python, to convert the .md file into .html file. Before the last step, I am supposed to ensure that the my own github personal page is ready to use. Finally, the .html file should be able to be pushed to my github website as a part of my blog.</p>
 <h2>Steps</h2>
 <ul>
 <li>Create a working directory for my blog.</li>
 </ul>
-<p><code>shell
-   mkdir blog
-   cd bllog</code></p>
+<div class="highlight"><pre><span></span><code>mkdir blog
+<span class="nb">cd</span> blog
+</code></pre></div>
+
+
 <ul>
 <li>Use virtualenv to create an env.</li>
 </ul>
-<p><code>shell
-   virtualenv env
-   source env/bin/activate # Activate the env</code></p>
+<div class="highlight"><pre><span></span><code>virtualenv env
+<span class="nb">source</span> env/bin/activate <span class="c1"># Activate the env</span>
+</code></pre></div>
+
+
 <ul>
 <li>Use pip to install Pelican and Markdown.</li>
 </ul>
-<p><code>shell
-   pip install pelican
-   pip install markdown</code></p>
+<div class="highlight"><pre><span></span><code>pip install pelican
+pip install markdown
+</code></pre></div>
+
+
 <ul>
 <li>Create a pelican skeleton via <code>pelican-quickstart</code> command which help me set up pelican config by asking multiple questions.</li>
 </ul>
-<p><code>shell
-   pelican-quickstart</code></p>
+<div class="highlight"><pre><span></span><code>pelican-quickstart
+</code></pre></div>
+
+
 <ul>
 <li>Move my .md file into content directory. One thing to mention is that the .md file must have a header to allow pelican to recognize.</li>
 </ul>
-<p><code>shell
-   # One example of the header from pelican documentation
-   Title: My First Review
-   Date: 2010-12-03 10:20
-   Category: Review</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># One example of the header from pelican documentation</span>
+
+Title: My First Review
+Date: <span class="m">2010</span>-12-03 <span class="m">10</span>:20
+Category: Review
+</code></pre></div>
+
+
 <ul>
 <li>Have a look at the local output.</li>
 </ul>
-<p>```
-   # Under blog/ directory
-   pelican content # generate static site under output/ directory  according to content </p>
-<p># Under output/ directory
-   python -m pelican.server
-   <code>``
-If there is no error reported, go to 127.0.0.1:8000 via web browser.
-​Type in</code>ctrl + c` to terminate this service. </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Under blog/ directory</span>
+
+pelican content <span class="c1"># Generate static site under output/ directory  according to content </span>
+
+<span class="c1"># Under output/ directory</span>
+python -m pelican.server
+</code></pre></div>
+
+
+<p>If there is no error reported, go to 127.0.0.1:8000 via web browser.
+Type in <code>ctrl + c</code> to terminate this service. </p>
 <ul>
-<li>Upload the genetated static site to github pages. First set up a github repository with username.github.io as <code>Repository name</code>.
-    Under output/ directory,  add/commit changes.</li>
+<li>Upload the genetated static site to github pages. </li>
+<li>First set up a github repository with username.github.io as <code>Repository name</code>.</li>
+<li>Under output/ directory,  add/commit changes.</li>
 </ul>
-<p><code>shell
-  git init
-  git add .
-  git commit -m "first commit"
-  git remote add origin git@github.com:uesrname/username.github.io.git
-  git push -u origin master</code></p>                </article>
+<div class="highlight"><pre><span></span><code>git init
+git add .
+git commit -m <span class="s2">&quot;first commit&quot;</span>
+git remote add origin git@github.com:uesrname/username.github.io.git
+git push -u origin master
+</code></pre></div>                </article>
             </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>
                         <ul>
                             <li><a href="https://getpelican.com/">Pelican</a></li>
-                            <li><a href="https://www.python.org/">Python.org</a></li>
                             <li><a href="https://palletsprojects.com/p/jinja/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
                         </ul>
                 </div><!-- /.blogroll -->
                 <div class="social">
                         <h2>social</h2>
                         <ul>
 
-                            <li><a href="https://github.com/FanYang44">github</a></li>
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
+                            <li><a href="https://github.com/FanYang44/">github</a></li>
                         </ul>
                 </div><!-- /.social -->
         </section><!-- /#extras -->

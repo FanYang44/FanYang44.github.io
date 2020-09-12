@@ -4,103 +4,200 @@
         <meta charset="utf-8" />
         <meta name="generator" content="Pelican" />
         <title>Fan Yang</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="https://fanyang44.github.io/theme/css/main.css" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Fan Yang</a></h1>
+                <h1><a href="https://fanyang44.github.io/">Fan Yang</a></h1>
                 <nav><ul>
-                    <li><a href="/category/posts.html">posts</a></li>
+                    <li><a href="https://fanyang44.github.io/category/posts.html">posts</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/posts/2020/Aug/28/First blog/">First test</a></h1>
+                    <h1 class="entry-title"><a href="https://fanyang44.github.io/posts/2020/Sep/10/Second blog/">Problems from Project Euler</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2020-09-10T00:00:00-04:00">
+                Published: Thu 10 September 2020
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://fanyang44.github.io/author/fan-yang.html">Fan Yang</a>
+        </address>
+<p>In <a href="https://fanyang44.github.io/category/posts.html">posts</a>.</p>
+<p>tags: <a href="https://fanyang44.github.io/tag/programming-problems.html">programming problems</a> </p>
+</footer><!-- /.post-info --><h1>Solve 3 problems from Project Euler</h1>
+<p>I had never heard of anything about this project before having Prof. Chen's course. I find some introduction from the website of Project Euler as follows,</p>
+<blockquote>
+<p>Project Euler is a series of challenging mathematical/computer programming problems that will require more than just mathematical insights to solve.</p>
+</blockquote>
+<p>I picked three problems with ID 5, 31, 72 respectively. I will give the description and my solution of each problem and show how I approach it. </p>
+<p>Let's start. </p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</code></pre></div>
+
+
+<h2>Problem 5</h2>
+<p>Problem 5 is <code>Smallest multiple</code> and solved by 489420 people. </p>
+<p>Problem description:</p>
+<blockquote>
+<p>2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.</p>
+<p>What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?</p>
+</blockquote>
+<p>Solution:</p>
+<p>The problem wants us to find the least common multiple of all natural numbers from 1 to 20. We need to find lcm of two numbers, lcm(a, b), first. Then we can find the lcm of lcm(a, b) and c, lcm(lcm(a,b), c)). And repeat until all numbers have been used Before finding the lcm of two numbers, we need gcd. Thus lcm(a, b) = a*b/gcd(a, b). </p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">gcd</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the greatest common division of two numbers </span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">num1</span> <span class="o">&lt;</span> <span class="n">num2</span><span class="p">:</span> <span class="c1"># Adjust the order of two numbers</span>
+        <span class="n">num1</span><span class="p">,</span> <span class="n">num2</span> <span class="o">=</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">while</span> <span class="n">num2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># Toss and divide</span>
+        <span class="n">num1</span><span class="p">,</span> <span class="n">num2</span> <span class="o">=</span> <span class="n">num2</span><span class="p">,</span> <span class="n">num1</span> <span class="o">%</span> <span class="n">num2</span>
+    <span class="k">return</span> <span class="n">num1</span>
+</code></pre></div>
+
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">lcm</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the least common multiple of two numbers</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">*</span> <span class="n">num2</span> <span class="o">/</span> <span class="n">gcd</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">)</span>
+</code></pre></div>
+
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sm</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Give two numbers, find the smallest positive number </span>
+<span class="sd">    that is evenly divisible by all of the numbers from begin to end</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">lcm</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>In the end, 232792560 is the smallest number that can be divided by each of the numbers from 1 to 20 without any remainder.</p>
+<h2>Problem 31</h2>
+<p>Problem 31 is  <code>Coin sums</code> and solved by 83758 people. </p>
+<p>Problem description:</p>
+<blockquote>
+<p>In the United Kingdom the currency is made up of pound (£) and pence (p). There are eight coins in general circulation:</p>
+<p>1p, 2p, 5p, 10p, 20p, 50p, £1 (100p), and £2 (200p).
+It is possible to make £2 in the following way:</p>
+<p>1×£1 + 1×50p + 2×20p + 1×5p + 1×2p + 3×1p
+How many different ways can £2 be made using any number of coins?</p>
+</blockquote>
+<p>Solution:
+We can use exhausive search since the sum here is not very large. But to save time, we can use recursive method to count all possible cases. The problem wants us to find count(200, 8), using 8 kinds of coins to make £2(200p). To find count(200, 8), we can divide it into two cases. One is using at least one £2 coin, the other is using the other 7 coins. So, $count(200, 8) = count(200, 7) + count(100, 8)$. And repeat this process.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n: int</span>
+<span class="sd">       Sum of all coins </span>
+<span class="sd">    m: int</span>
+<span class="sd">       The number of kinds of all coins</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># eight coins: 1p, 2p, 5p, 10p, 20p, 50p, £1 (100p) and £2 (200p)</span>
+    <span class="n">coins</span>  <span class="o">=</span>  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># count(4, 0) will be treated as 0. </span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># count(0, 4) will be treated as 1. </span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">count</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">count</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">coins</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">m</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>There are 73682 different ways that £2 can be made using any number of coins</p>
+<h2>Problem 72</h2>
+<p>Problem 72 is  <code>Counting fractions</code> and solved by 21453 people. </p>
+<p>Problem description:</p>
+<blockquote>
+<p>Consider the fraction, n/d, where n and d are positive integers. If n&lt;d and HCF(n,d)=1, it is called a reduced proper fraction.</p>
+<p>If we list the set of reduced proper fractions for d ≤ 8 in ascending order of size, we get:</p>
+<p>1/8, 1/7, 1/6, 1/5, 1/4, 2/7, 1/3, 3/8, 2/5, 3/7, 1/2, 4/7, 3/5, 5/8, 2/3, 5/7, 3/4, 4/5, 5/6, 6/7, 7/8</p>
+<p>It can be seen that there are 21 elements in this set.</p>
+<p>How many elements would be contained in the set of reduced proper fractions for d ≤ 1,000,000?</p>
+</blockquote>
+<p>Solution:
+If we use exhausive search, the task is easy for d ≤ 10,000. But the task will be horrible for computers if  d ≤ 1,000,000. For each d, the number of reduced proper fractions equals to the number of n that is relatively prime to and smaller than d. According to Euler's totient funtion, the answer for each d is $\phi(d)$. Thus the problem wants us to find the answer to </p>
+<p>$$
+\sum_2^{1000000} \phi(i)
+$$</p>
+<p>Each $\phi(i)$ can be calculated by </p>
+<p>$$
+\phi(i) = i\prod_{p|i}(1-\frac{1}{p})
+$$</p>
+<p>Where $p|i$ means all the prime factors of i.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">countReducedProperFractions</span><span class="p">(</span><span class="n">max_d</span><span class="p">):</span>
+    <span class="n">phi_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_d</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_d</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">phi_list</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">==</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">max_d</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="n">phi_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-=</span> <span class="n">phi_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">/</span> <span class="n">n</span>
+
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">phi_list</span><span class="p">[</span><span class="mi">2</span><span class="p">:]))</span>
+</code></pre></div>
+
+
+<p>303963552391 elements would be contained in the set of reduced proper fractions for d ≤ 1,000,000.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://fanyang44.github.io/posts/2020/Aug/28/First blog/" rel="bookmark"
+                           title="Permalink to First test">First test</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2020-08-28T00:00:00-04:00">
                 Published: Fri 28 August 2020
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/fan-yang.html">Fan Yang</a>
+                By                         <a class="url fn" href="https://fanyang44.github.io/author/fan-yang.html">Fan Yang</a>
         </address>
-<p>In <a href="/category/posts.html">posts</a>.</p>
-<p>tags: <a href="/tag/test.html">test</a> </p>
-</footer><!-- /.post-info --><h1>My very first blog</h1>
-<p>The article is written with Markdown. The idea is firstly, edit the .md file in <strong>Typora</strong> which is a very powerful editor for many kinds of programming language. Secondly, I use the Pelican, a <em>static site generator</em> powered by Python, to convert the .md file into .html file. Before the last step, I am supposed to ensure that the my own github personal page is ready to use. Finally, the .html file should be able to be pushed to my github website as a part of my blog.</p>
-<h2>Steps</h2>
-<ul>
-<li>Create a working directory for my blog.</li>
-</ul>
-<p><code>shell
-   mkdir blog
-   cd bllog</code></p>
-<ul>
-<li>Use virtualenv to create an env.</li>
-</ul>
-<p><code>shell
-   virtualenv env
-   source env/bin/activate # Activate the env</code></p>
-<ul>
-<li>Use pip to install Pelican and Markdown.</li>
-</ul>
-<p><code>shell
-   pip install pelican
-   pip install markdown</code></p>
-<ul>
-<li>Create a pelican skeleton via <code>pelican-quickstart</code> command which help me set up pelican config by asking multiple questions.</li>
-</ul>
-<p><code>shell
-   pelican-quickstart</code></p>
-<ul>
-<li>Move my .md file into content directory. One thing to mention is that the .md file must have a header to allow pelican to recognize.</li>
-</ul>
-<p><code>shell
-   # One example of the header from pelican documentation
-   Title: My First Review
-   Date: 2010-12-03 10:20
-   Category: Review</code></p>
-<ul>
-<li>Have a look at the local output.</li>
-</ul>
-<p>```
-   # Under blog/ directory
-   pelican content # generate static site under output/ directory  according to content </p>
-<p># Under output/ directory
-   python -m pelican.server
-   <code>``
-If there is no error reported, go to 127.0.0.1:8000 via web browser.
-​Type in</code>ctrl + c` to terminate this service. </p>
-<ul>
-<li>Upload the genetated static site to github pages. First set up a github repository with username.github.io as <code>Repository name</code>.
-    Under output/ directory,  add/commit changes.</li>
-</ul>
-<p><code>shell
-  git init
-  git add .
-  git commit -m "first commit"
-  git remote add origin git@github.com:uesrname/username.github.io.git
-  git push -u origin master</code></p>                </article>
-            </aside><!-- /#featured -->
+<p>In <a href="https://fanyang44.github.io/category/posts.html">posts</a>.</p>
+<p>tags: <a href="https://fanyang44.github.io/tag/test.html">test</a> </p>
+</footer><!-- /.post-info -->                <h1>My very first blog</h1>
+<p>The article is written with Markdown. The idea is firstly, edit the .md file in <strong>Typora</strong> which is a very powerful editor for many kinds of programming language. Secondly, I use the Pelican, a <em>static site generator</em> powered by Python, to convert the .md file into …</p>
+                <a class="readmore" href="https://fanyang44.github.io/posts/2020/Aug/28/First blog/">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>
                         <ul>
                             <li><a href="https://getpelican.com/">Pelican</a></li>
-                            <li><a href="https://www.python.org/">Python.org</a></li>
                             <li><a href="https://palletsprojects.com/p/jinja/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
                         </ul>
                 </div><!-- /.blogroll -->
                 <div class="social">
                         <h2>social</h2>
                         <ul>
 
-                            <li><a href="https://github.com/FanYang44">github</a></li>
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
+                            <li><a href="https://github.com/FanYang44/">github</a></li>
                         </ul>
                 </div><!-- /.social -->
         </section><!-- /#extras -->
