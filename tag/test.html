@@ -34,55 +34,55 @@
 <ul>
 <li>Create a working directory for my blog.</li>
 </ul>
-<div class="highlight"><pre><span></span><code>mkdir blog
+<div class="highlight"><pre><span></span>mkdir blog
 <span class="nb">cd</span> blog
-</code></pre></div>
+</pre></div>
 
 
 <ul>
 <li>Use virtualenv to create an env.</li>
 </ul>
-<div class="highlight"><pre><span></span><code>virtualenv env
+<div class="highlight"><pre><span></span>virtualenv env
 <span class="nb">source</span> env/bin/activate <span class="c1"># Activate the env</span>
-</code></pre></div>
+</pre></div>
 
 
 <ul>
 <li>Use pip to install Pelican and Markdown.</li>
 </ul>
-<div class="highlight"><pre><span></span><code>pip install pelican
+<div class="highlight"><pre><span></span>pip install pelican
 pip install markdown
-</code></pre></div>
+</pre></div>
 
 
 <ul>
 <li>Create a pelican skeleton via <code>pelican-quickstart</code> command which help me set up pelican config by asking multiple questions.</li>
 </ul>
-<div class="highlight"><pre><span></span><code>pelican-quickstart
-</code></pre></div>
+<div class="highlight"><pre><span></span>pelican-quickstart
+</pre></div>
 
 
 <ul>
 <li>Move my .md file into content directory. One thing to mention is that the .md file must have a header to allow pelican to recognize.</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="c1"># One example of the header from pelican documentation</span>
+<div class="highlight"><pre><span></span><span class="c1"># One example of the header from pelican documentation</span>
 
 Title: My First Review
 Date: <span class="m">2010</span>-12-03 <span class="m">10</span>:20
 Category: Review
-</code></pre></div>
+</pre></div>
 
 
 <ul>
 <li>Have a look at the local output.</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="c1"># Under blog/ directory</span>
+<div class="highlight"><pre><span></span><span class="c1"># Under blog/ directory</span>
 
 pelican content <span class="c1"># Generate static site under output/ directory  according to content </span>
 
 <span class="c1"># Under output/ directory</span>
 python -m pelican.server
-</code></pre></div>
+</pre></div>
 
 
 <p>If there is no error reported, go to 127.0.0.1:8000 via web browser.
@@ -92,12 +92,12 @@ Type in <code>ctrl + c</code> to terminate this service. </p>
 <li>First set up a github repository with username.github.io as <code>Repository name</code>.</li>
 <li>Under output/ directory,  add/commit changes.</li>
 </ul>
-<div class="highlight"><pre><span></span><code>git init
+<div class="highlight"><pre><span></span>git init
 git add .
 git commit -m <span class="s2">&quot;first commit&quot;</span>
 git remote add origin git@github.com:uesrname/username.github.io.git
 git push -u origin master
-</code></pre></div>                </article>
+</pre></div>                </article>
             </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">
