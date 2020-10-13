@@ -53,7 +53,7 @@
 <p>What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?</p>
 </blockquote>
 <p>Solution:</p>
-<p>The problem wants us to find the least common multiple of all natural numbers from 1 to 20. We need to find lcm of two numbers, lcm(a, b), first. Then we can find the lcm of lcm(a, b) and c, lcm(lcm(a,b), c)). And repeat until all numbers have been used Before finding the lcm of two numbers, we need gcd. Thus lcm(a, b) = a*b/gcd(a, b). </p>
+<p>The problem wants us to find the least common multiple of all natural numbers from 1 to 20. We need to firstly find lcm of two numbers, <span class="math">\(lcm(a, b)\)</span>. Then we can find the lcm of <span class="math">\(lcm(a, b)\)</span> and <span class="math">\(c, lcm(lcm(a,b), c))\)</span>. And repeat until all numbers have been used Before finding the lcm of two numbers, we need gcd. Thus <span class="math">\(lcm(a, b) = a*b/gcd(a, b)\)</span>. </p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gcd</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find the greatest common division of two numbers </span>
@@ -104,7 +104,7 @@ It is possible to make £2 in the following way:</p>
 How many different ways can £2 be made using any number of coins?</p>
 </blockquote>
 <p>Solution:
-We can use exhausive search since the sum here is not very large. But to save time, we can use recursive method to count all possible cases. The problem wants us to find count(200, 8), using 8 kinds of coins to make £2(200p). To find count(200, 8), we can divide it into two cases. One is using at least one £2 coin, the other is using the other 7 coins. So, $count(200, 8) = count(200, 7) + count(100, 8)$. And repeat this process.</p>
+We can use exhausive search since the sum here is not very large. But to save time, we can use recursive method to count all possible cases. The problem wants us to find count(200, 8), using 8 kinds of coins to make £2(200p). To find count(200, 8), we can divide it into two cases. One is using at least one £2 coin, the other is using the other 7 coins. So, <span class="math">\(count(200, 8) = count(200, 7) + count(100, 8)\)</span>. And repeat this process.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
@@ -127,7 +127,7 @@ We can use exhausive search since the sum here is not very large. But to save ti
 </pre></div>
 
 
-<p>There are 73682 different ways that £2 can be made using any number of coins</p>
+<p>There are 73682 different ways that £2 can be made using any number of coins.</p>
 <h2>Problem 72</h2>
 <p>Problem 72 is  <code>Counting fractions</code> and solved by 21453 people. </p>
 <p>Problem description:</p>
@@ -139,15 +139,15 @@ We can use exhausive search since the sum here is not very large. But to save ti
 <p>How many elements would be contained in the set of reduced proper fractions for d ≤ 1,000,000?</p>
 </blockquote>
 <p>Solution:
-If we use exhausive search, the task is easy for d ≤ 10,000. But the task will be horrible for computers if  d ≤ 1,000,000. For each d, the number of reduced proper fractions equals to the number of n that is relatively prime to and smaller than d. According to Euler's totient funtion, the answer for each d is $\phi(d)$. Thus the problem wants us to find the answer to </p>
-<p>$$
+If we use exhausive search, the task is easy for d ≤ 10,000. But the task will be horrible for computers if  d ≤ 1,000,000. For each d, the number of reduced proper fractions equals to the number of n that is relatively prime to and smaller than d. According to Euler's totient funtion, the answer for each d is <span class="math">\(\phi(d)\)</span>. Thus the problem wants us to find the answer to </p>
+<div class="math">$$
 \sum_2^{1000000} \phi(i)
-$$</p>
-<p>Each $\phi(i)$ can be calculated by </p>
-<p>$$
+$$</div>
+<p>Each <span class="math">\(\phi(i)\)</span> can be calculated by </p>
+<div class="math">$$
 \phi(i) = i\prod_{p|i}(1-\frac{1}{p})
-$$</p>
-<p>Where $p|i$ means all the prime factors of i.</p>
+$$</div>
+<p>Where <span class="math">\(p|i\)</span> means all the prime factors of i.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">countReducedProperFractions</span><span class="p">(</span><span class="n">max_d</span><span class="p">):</span>
     <span class="n">phi_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_d</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">]</span>
 
@@ -161,6 +161,68 @@ $$</p>
 
 
 <p>303963552391 elements would be contained in the set of reduced proper fractions for d ≤ 1,000,000.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
     </div><!-- /.entry-content -->
 
   </article>
