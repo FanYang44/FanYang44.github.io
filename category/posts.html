@@ -31,14 +31,20 @@
 </footer><!-- /.post-info --><p>Nowadays enormous data are being collected are stored. Databases are invented for the purpose of storage, accessibility, management of data. In order to easily manage data and efficiently store data,, databases must organize data well. Normalization helps solve this problem. It is a good way of organizing data in the database. </p>
 <p>This post uses 3 normal forms, 1st normal form, 2nd normal form and 3rd normal form, to guide the process of store the data in the database. Before we start, let's first refresh our memory.</p>
 <h2>Database normalizaton</h2>
-<p>1NF (First Normal Form) Rules
-* Each table cell should contain a single value. (No composite or multi-valued attribute in a relation)</p>
-<p>2NF (Second Normal Form) Rules
-* Be in 1NF.
-* No partial dependency, i.e., no non-prime attribute (attributes which are not part of any candidate key) is dependent on any proper subset of any candidate key of the table.</p>
-<p>3NF (Third Normal Form) Rules
-* Be in 2NF.
-* Has no transitive functional dependencies for non-prime attributes</p>
+<p>1NF (First Normal Form) Rules</p>
+<ul>
+<li>Each table cell should contain a single value. (No composite or multi-valued attribute in a relation)</li>
+</ul>
+<p>2NF (Second Normal Form) Rules</p>
+<ul>
+<li>Be in 1NF.</li>
+<li>No partial dependency, i.e., no non-prime attribute (attributes which are not part of any candidate key) is dependent on any proper subset of any candidate key of the table.</li>
+</ul>
+<p>3NF (Third Normal Form) Rules</p>
+<ul>
+<li>Be in 2NF.</li>
+<li>Has no transitive functional dependencies for non-prime attributes</li>
+</ul>
 <h2>Create a SQLite3 schema to store this data in at least 3rd normal form (3NF)</h2>
 <p>The data set is from Spotify via the <a href="https://www.rcharlie.com/spotifyr/"><code>spotifyr package</code></a>.  There are 23 columns with information about track, album, playlist and song characteristics.  </p>
 <div class="highlight"><pre><span></span><span class="n">Index</span><span class="p">([</span><span class="s1">&#39;track_id&#39;</span><span class="p">,</span> <span class="s1">&#39;track_name&#39;</span><span class="p">,</span> <span class="s1">&#39;track_artist&#39;</span><span class="p">,</span> <span class="s1">&#39;track_popularity&#39;</span><span class="p">,</span>
@@ -54,12 +60,12 @@
 <p>We can divide this dataframe into 5 tables to be stored in SQL  using normalization. The ER diagram generated with python module <code>eralchemy</code> is shown below</p>
 <p><img alt="image1" src="https://fanyang44.github.io/images/post4_image1.png"></p>
 <p>Then we can build SQLite3 connection:</p>
-<div class="highlight"><pre><span></span><span class="n">conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlite3</span><span class="p">.</span><span class="k">connect</span><span class="p">(</span><span class="s1">&#39;spotify.db&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="nc">cursor</span><span class="p">()</span><span class="w"></span>
-<span class="n">tables</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">track, album, playlist, track_album, track_playlist</span><span class="o">]</span><span class="w"></span>
-<span class="n">tables_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;track&#39;, &#39;album&#39;, &#39;playlist&#39;, &#39;track_album&#39;, &#39;track_playlist&#39;</span><span class="o">]</span><span class="w"></span>
-<span class="k">for</span><span class="w"> </span><span class="k">index</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">enumerate</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
-<span class="w">    </span><span class="n">df</span><span class="p">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">tables_names</span><span class="o">[</span><span class="n">index</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">con</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;spotify.db&#39;</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">track</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">playlist</span><span class="p">,</span> <span class="n">track_album</span><span class="p">,</span> <span class="n">track_playlist</span><span class="p">]</span>
+<span class="n">tables_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;track&#39;</span><span class="p">,</span> <span class="s1">&#39;album&#39;</span><span class="p">,</span> <span class="s1">&#39;playlist&#39;</span><span class="p">,</span> <span class="s1">&#39;track_album&#39;</span><span class="p">,</span> <span class="s1">&#39;track_playlist&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tables</span><span class="p">):</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">tables_names</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">con</span> <span class="o">=</span> <span class="n">conn</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
 
