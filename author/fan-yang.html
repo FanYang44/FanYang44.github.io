@@ -17,7 +17,124 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://fanyang44.github.io/posts/2020/Oct/02/Third blog/">Data visualization with malaria data sets</a></h1>
+                    <h1 class="entry-title"><a href="https://fanyang44.github.io/posts/2020/Oct/09/Fourth blog/">Store Spotify songs data set with SQLite3</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2020-10-09T00:00:00-04:00">
+                Published: Fri 09 October 2020
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://fanyang44.github.io/author/fan-yang.html">Fan Yang</a>
+        </address>
+<p>In <a href="https://fanyang44.github.io/category/posts.html">posts</a>.</p>
+<p>tags: <a href="https://fanyang44.github.io/tag/database.html">database</a> <a href="https://fanyang44.github.io/tag/sql.html">sql</a> </p>
+</footer><!-- /.post-info --><p>Nowadays enormous data are being collected are stored. Databases are invented for the purpose of storage, accessibility, management of data. In order to easily manage data and efficiently store data,, databases must organize data well. Normalization helps solve this problem. It is a good way of organizing data in the database. </p>
+<p>This post uses 3 normal forms, 1st normal form, 2nd normal form and 3rd normal form, to guide the process of store the data in the database. Before we start, let's first refresh our memory.</p>
+<h2>Database normalizaton</h2>
+<p>1NF (First Normal Form) Rules
+* Each table cell should contain a single value. (No composite or multi-valued attribute in a relation)</p>
+<p>2NF (Second Normal Form) Rules
+* Be in 1NF.
+* No partial dependency, i.e., no non-prime attribute (attributes which are not part of any candidate key) is dependent on any proper subset of any candidate key of the table.</p>
+<p>3NF (Third Normal Form) Rules
+* Be in 2NF.
+* Has no transitive functional dependencies for non-prime attributes</p>
+<h2>Create a SQLite3 schema to store this data in at least 3rd normal form (3NF)</h2>
+<p>The data set is from Spotify via the <a href="https://www.rcharlie.com/spotifyr/"><code>spotifyr package</code></a>.  There are 23 columns with information about track, album, playlist and song characteristics.  </p>
+<div class="highlight"><pre><span></span><span class="n">Index</span><span class="p">([</span><span class="s1">&#39;track_id&#39;</span><span class="p">,</span> <span class="s1">&#39;track_name&#39;</span><span class="p">,</span> <span class="s1">&#39;track_artist&#39;</span><span class="p">,</span> <span class="s1">&#39;track_popularity&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;track_album_id&#39;</span><span class="p">,</span> <span class="s1">&#39;track_album_name&#39;</span><span class="p">,</span> <span class="s1">&#39;track_album_release_date&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;playlist_name&#39;</span><span class="p">,</span> <span class="s1">&#39;playlist_id&#39;</span><span class="p">,</span> <span class="s1">&#39;playlist_genre&#39;</span><span class="p">,</span> <span class="s1">&#39;playlist_subgenre&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;danceability&#39;</span><span class="p">,</span> <span class="s1">&#39;energy&#39;</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;loudness&#39;</span><span class="p">,</span> <span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="s1">&#39;speechiness&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;acousticness&#39;</span><span class="p">,</span> <span class="s1">&#39;instrumentalness&#39;</span><span class="p">,</span> <span class="s1">&#39;liveness&#39;</span><span class="p">,</span> <span class="s1">&#39;valence&#39;</span><span class="p">,</span> <span class="s1">&#39;tempo&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;duration_ms&#39;</span><span class="p">],</span>
+      <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>We can divide this dataframe into 5 tables to be stored in SQL  using normalization. The ER diagram generated with python module <code>eralchemy</code> is shown below</p>
+<p><img alt="image1" src="https://fanyang44.github.io/images/post4_image1.png"></p>
+<p>Then we can build SQLite3 connection:</p>
+<div class="highlight"><pre><span></span><span class="n">conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlite3</span><span class="p">.</span><span class="k">connect</span><span class="p">(</span><span class="s1">&#39;spotify.db&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="nc">cursor</span><span class="p">()</span><span class="w"></span>
+<span class="n">tables</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">track, album, playlist, track_album, track_playlist</span><span class="o">]</span><span class="w"></span>
+<span class="n">tables_names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;track&#39;, &#39;album&#39;, &#39;playlist&#39;, &#39;track_album&#39;, &#39;track_playlist&#39;</span><span class="o">]</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="k">index</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">enumerate</span><span class="p">(</span><span class="n">tables</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">df</span><span class="p">.</span><span class="n">to_sql</span><span class="p">(</span><span class="n">tables_names</span><span class="o">[</span><span class="n">index</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">con</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="n">if_exists</span><span class="o">=</span><span class="s1">&#39;replace&#39;</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span><span class="c1"># Check all table names</span>
+<span class="n">c</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>  
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SELECT name</span>
+<span class="sd">FROM sqlite_master</span>
+<span class="sd">WHERE type = &#39;table&#39;;</span>
+<span class="sd">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="c1"># [(&#39;track&#39;,), (&#39;album&#39;,), (&#39;playlist&#39;,), (&#39;track_album&#39;,), (&#39;track_playlist&#39;,)]</span>
+</pre></div>
+
+
+<h2>Use an SQL query to find the names of all playlists that contain instrumentals</h2>
+<p>Finally, we can perform some SQL queries with our <code>Spotify.db</code> created above.</p>
+<p>Among 12 specific characteristics for every track in the database, <code>instrumentalness</code> is used to predict whether a track contains no vocals. According to variable description for <a href="https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-01-21/readme.md"><code>spotify_songs.csv</code></a>,</p>
+<blockquote>
+<p>“Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content. Values above 0.5 are intended to represent instrumental tracks, but confidence is higher as the value approaches 1.0.</p>
+</blockquote>
+<p>The <code>instrumentalness</code> characteristic is stored in track table. <code>Track</code> table and <code>playlist</code> table can be connected via <code>track_playlist</code> table. </p>
+<div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT COUNT(DISTINCT p.playlist_name)</span>
+<span class="s2">            FROM playlist AS p </span>
+<span class="s2">            JOIN track_playlist AS tp</span>
+<span class="s2">                ON p.playlist_id = tp.playlist_id</span>
+<span class="s2">            JOIN track AS t</span>
+<span class="s2">                ON tp.track_id = t.track_id</span>
+<span class="s2">            WHERE t.instrumentalness &gt; 0.5</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>     
+<span class="c1"># [(256,)]</span>
+</pre></div>
+
+
+<p>The query result shows there are 256 playlists containing instrumentals. We can list 10 playlist names as an example.</p>
+<div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="n">execute</span> <span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            SELECT DISTINCT p.playlist_name</span>
+<span class="s2">            FROM playlist AS p </span>
+<span class="s2">            JOIN track_playlist AS tp</span>
+<span class="s2">                ON p.playlist_id = tp.playlist_id</span>
+<span class="s2">            JOIN track AS t</span>
+<span class="s2">                ON tp.track_id = t.track_id</span>
+<span class="s2">            WHERE t.instrumentalness &gt; 0.5</span>
+<span class="s2">            LIMIT 10</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)</span>
+<span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>[(&#39;Pop Remix&#39;,),
+ (&#39;Dance Room&#39;,),
+ (&#39;Pop Warmup 130 BPM&#39;,),
+ (&#39;Dance Pop&#39;,),
+ (&#39;Dance Pop Tunes&#39;,),
+ (&#39;Pop / Dance&#39;,),
+ (&#39;Most Popular 2020 TOP 50&#39;,),
+ (&#39;post-teen alternative, indie, pop (large variety)&#39;,),
+ (&#39;Todo Éxitos&#39;,),
+ (&#39;Charts 2020 🔥Top 2020🔥Hits 2020🔥Summer 2020🔥Pop 2020🔥Popular Music🔥Clean Pop 2020🔥Sing Alongs&#39;,)]
+</pre></div>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://fanyang44.github.io/posts/2020/Oct/02/Third blog/" rel="bookmark"
+                           title="Permalink to Data visualization with malaria data sets">Data visualization with malaria data sets</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2020-10-02T00:00:00-04:00">
                 Published: Fri 02 October 2020
@@ -28,27 +145,14 @@
         </address>
 <p>In <a href="https://fanyang44.github.io/category/posts.html">posts</a>.</p>
 <p>tags: <a href="https://fanyang44.github.io/tag/data-analysis.html">data analysis</a> </p>
-</footer><!-- /.post-info --><h1>Data visualization tasks</h1>
+</footer><!-- /.post-info -->                <h1>Data visualization tasks</h1>
 <p>Data visualization is a subset of data science. It helps people visualize data by using graphic 
 representations. With effective visualizations, people are able to detect patterns, trends and 
 relations in data. Thus, data visualization is also an essential step of data analysis. </p>
-<p>In this post, three informative visualizations about malaria will be created using Python.  Here are the three data sets that are going to be used in this post. They are from https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-11-13.</p>
-<ul>
-<li>malaria_inc.csv - Malaria incidence by country for all ages across the world across time</li>
-<li>malaria_deaths.csv - Malaria deaths by country for all ages across the world and time.</li>
-<li>malaria_deaths_age.csv - Malaria deaths by age across the world and time.</li>
-</ul>
-<p>The first figure shows us trends of deaths from malaria for different age groups all over the world. At a global level, children under 5 years old are the most vulnerable group to malaria deaths. The number of deaths from malaria tends to decrease with age.</p>
-<p><img alt="image1" src="https://fanyang44.github.io/images/post3_image1.png"></p>
-<p>The second figure focuses on top 10 countries with highest malaria incidences in 2000. The figure displays the trend of malaria incidences for these countries from 2000 to 2015 compared with world trend. In this group, although Turkey has the highest malaria incidence in 2000, it has the lowest incidence around 2008. All countries in this group have decreasing malaria incidences. </p>
-<p><img alt="image2" src="https://fanyang44.github.io/images/post3_image2.png"></p>
-<p>The third figure tries to show the malaria incidence distribution within countries. Within countries, mean and standard deviastion of malaria incidences decrease over years. More and more countries have controlled malaria incidences as malaria incidences in these countries are reduced to a certain level. </p>
-<p><img alt="image3" src="https://fanyang44.github.io/images/post3_image3.png"></p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>In this post, three informative …</p>
+                <a class="readmore" href="https://fanyang44.github.io/posts/2020/Oct/02/Third blog/">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
