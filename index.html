@@ -29,8 +29,37 @@
 <p>In <a href="https://fanyang44.github.io/category/posts.html">posts</a>.</p>
 <p>tags: <a href="https://fanyang44.github.io/tag/dashboard.html">dashboard</a> <a href="https://fanyang44.github.io/tag/data-visualization.html">data visualization</a> <a href="https://fanyang44.github.io/tag/streamlit.html">streamlit</a> </p>
 </footer><!-- /.post-info --><h2>Introduction</h2>
-<p>In this post, I will make a dashboard visualization using data of <a href="https://ncses.nsf.gov/pubs/nsf19301/data">PhDs awarded in the US</a> with help of <code>steamlit</code>.</p>
-<h2>Dashboard interaction</h2>                </article>
+<p>In this post, I will make a dashboard visualization using data of <a href="https://ncses.nsf.gov/pubs/nsf19301/data">PhDs awarded in the US</a> with help of <code>steamlit</code>. The data includes tables of detailed data on the demographic characteristics, educational history, sources of financial support, and postgraduation plans of doctorate recipients. I will choose two aspects, numbers of doctorate recipients for broad field of study and age distribution of doctorate recipients, to explore the data.</p>
+<p>Using <code>streamlit</code>, I can create an interactive app for data or model. <code>Streamlit</code>'s UI allows me to work in a fast interactive loop: first write some code in <code>.py</code> file, save it, run the app and review results, write more code, and so on. </p>
+<h3>Streamlit setup</h3>
+<div class="highlight"><pre><span></span><span class="c1"># Install streamlit</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">streamlit</span>
+</pre></div>
+
+
+<h3>Create the Streamlit app</h3>
+<ol>
+<li>Create a new Python file named <code>first_app.py</code>, then open it with IDE or text editor.</li>
+<li>Import Streamlit</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+
+
+<ol>
+<li>Run the  app. A new tab will open in the default browser.</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="n">streamlit</span> <span class="n">run</span> <span class="n">first_app</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+
+
+<ol>
+<li>To kill the app, type <code>Ctrl+c</code> in the terminal.</li>
+</ol>
+<h2>Dashboard interaction</h2>
+<iframe width=1200 height= 1500 frameborder=0 scrolling="no" src="https://share.streamlit.io/fanyang44/streamlit-dashboard/main/dashboard.py"></iframe>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
