@@ -17,7 +17,7 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://fanyang44.github.io/posts/2020/Nov/20/Seventh blog/">Dashboard visualization of PhDs data in the US with streamlit</a></h1>
+                    <h1 class="entry-title"><a href="https://fanyang44.github.io/posts/2020/Nov/20/Eighth blog/">Doctor Covid: Covid-19 Data Analysis project</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2020-11-20T00:00:00-05:00">
                 Published: Fri 20 November 2020
@@ -27,42 +27,82 @@
                 By                         <a class="url fn" href="https://fanyang44.github.io/author/fan-yang.html">Fan Yang</a>
         </address>
 <p>In <a href="https://fanyang44.github.io/category/posts.html">posts</a>.</p>
-<p>tags: <a href="https://fanyang44.github.io/tag/dashboard.html">dashboard</a> <a href="https://fanyang44.github.io/tag/data-visualization.html">data visualization</a> <a href="https://fanyang44.github.io/tag/streamlit.html">streamlit</a> </p>
+<p>tags: <a href="https://fanyang44.github.io/tag/dashboard.html">dashboard</a> <a href="https://fanyang44.github.io/tag/data-visualization.html">data visualization</a> <a href="https://fanyang44.github.io/tag/streamlit.html">streamlit</a> <a href="https://fanyang44.github.io/tag/time-series-analysis.html">time-series-analysis</a> </p>
 </footer><!-- /.post-info --><h2>Introduction</h2>
-<p>In this post, I will make a dashboard visualization using data of <a href="https://ncses.nsf.gov/pubs/nsf19301/data">PhDs awarded in the US</a> with help of <code>steamlit</code>. The data includes tables of detailed data on the demographic characteristics, educational history, sources of financial support, and postgraduation plans of doctorate recipients. I will choose two aspects, numbers of doctorate recipients for broad field of study and age distribution of doctorate recipients, to explore the data.</p>
-<p>Using <code>streamlit</code>, I can create an interactive app for data or model. <code>Streamlit</code>'s UI allows me to work in a fast interactive loop: first write some code in <code>.py</code> file, save it, run the app and review results, write more code, and so on. </p>
-<h3>Streamlit setup</h3>
-<div class="highlight"><pre><span></span><span class="c1"># Install streamlit</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="n">streamlit</span>
-</pre></div>
-
-
-<h3>Create the Streamlit app</h3>
+<p>This is a blog on a project called Doctor Covid. It is a final project for BIOSTAT823: Statistical Programming for Big Data in 2020 Fall Semester at Duke and is finished by Yiping Song , Xiangwen Mo, Bingruo Wu and me. The project's goal is to explore Covid-19 through data analysis and prediction. We intend to built a dashboard for the purpose of data visualization and make predictions related to Covid-19 data with the help of several time-series and machine learning models.</p>
+<h2>Background</h2>
+<p>Coronavirus disease 2019 (COVID-19) is caused by a novel coronavirus, SARS-CoV-2, that is highly contagious as it spreads from person to person quickly (can do it in seconds as reported in China) and causes mild to severe respiratory illness.  On March 11, 2020, the World Health Organization declared COVID-19 a pandemic. Covid-19 has become the global problem and has been causing huge loss, especially in economy. So far, Covid-19 has infected millions of people in US (11.7 M), India (9 M), Brasil (5.98 M), France (2.13 M), Russia (2M), Spain (1.54 M), etc.</p>
+<h2>Understand our data</h2>
+<h3>Data Description</h3>
+<p>For our project, we heavily relied on Covid-19 data aggregated by the Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE) from multiple data resources. JHU CSSE published this data  on Github (https://github.com/CSSEGISandData/COVID-19). This data repository is updated automatically (currently on a daily basis).</p>
+<p>There are mainly two parts of  JHU CSSE COVID-19 Dataset to be used. </p>
 <ul>
-<li>Create a new Python file named <code>first_app.py</code>, then open it with IDE or text editor.</li>
-<li>Import Streamlit</li>
+<li>
+<p>Daily reports (csse_covid_19_daily_reports)  and USA daily state reports (csse_covid_19_daily_reports_us) : They are used for the dashboard. They contain daily confirmed, deaths, recovered, active cases and incident Rate, case fatality ratio for each country/region and also provide dot locations to show data on the map. </p>
+</li>
+<li>
+<p>Time series data (csse_covid_19_time_series): It is used for the dashboard to visualize the spread of covid-19 and for the model prediction part. It includes confirmed, deaths and recovered cases.</p>
+</li>
 </ul>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">streamlit</span> <span class="k">as</span> <span class="nn">st</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</pre></div>
-
-
+<h3>Interactive dashboard and visualization</h3>
+<p>We built our dashboard with streamlit for visualizing data. Follow this link to our dashboard: https://final-covid19-dashboard.herokuapp.com/ and you can interact with data.</p>
+<p>There are three main sections included in the dashboard:</p>
 <ul>
-<li>Run the  app. A new tab will open in the default browser.</li>
+<li>Map<ul>
+<li>Daily updated active cases map for the world and for the United States. <ul>
+<li>For global, we included active cases bubble map and case-fatalty ratio bubble map. </li>
+<li>For US, we included active cases bubble map and death cases Choropleth map.</li>
 </ul>
-<div class="highlight"><pre><span></span><span class="n">streamlit</span> <span class="n">run</span> <span class="n">first_app</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-
-
+</li>
+<li>Global spread of covid-19 maps, in which users can select their intrested time range and see the animated spread of COVID-19 across the world.</li>
+</ul>
+</li>
+<li>General Trend<ul>
+<li>plot of top 10 highest max infection cases/rate countries</li>
+<li>plots of infection rate vs. incidence rate for each countries</li>
+</ul>
+</li>
+<li>Covid19 in US<ul>
+<li>plot of death rates vs. survive rates in US</li>
+<li>plot for confirm cases, death cases, and recover cases in US</li>
+</ul>
+</li>
+</ul>
+<h3>Model Development and Performance</h3>
+<p>We tried three models to predict the number of new cases in a next given period, either in a short term or in a long term.
+Models included:</p>
 <ul>
-<li>To kill the app, type <code>Ctrl+c</code> in the terminal.</li>
+<li>
+<p>SARIMAX: Seasonal auto regressive integrated moving average with exogenous factors (SARIMAX). Auto regressive (AR) means the model predicts the next data point by looking at previous data points, using a mathematical formula similar to linear regression. Integrated means it takes a difference of the time-series, subtracting the previous value from each value, which tends to make the data more stationary. A moving average (MA) model performs calculations based on noise in the data along with the data’s slope. We use SARIMAX instead of regular ARIMA because the former can work well with data having seasonal cycles. </p>
+</li>
+<li>
+<p>SVR: Support Vector Regression (SVR) is based on the same principles as SVM for classification: to find a hyperplane in a d-dimensional space (d is the number of features) that classifies the data points. We adopted a polynomial kernel to learn a non-linear model and use random-search cross-validation to find the best hyperparameters. The training data is the date, and the label is confirmed cases. The results of forecasting COVID-19 confirmed/death/recover cases of the next 10 days is shown in the plots below.</p>
+</li>
 </ul>
-<h2>Dashboard interaction</h2>
-<iframe width=600 height= 1500 frameborder=0 scrolling="yes" src="https://share.streamlit.io/fanyang44/streamlit-dashboard/main/dashboard.py"></iframe>
-
-<p>For chart I, I can use sidebox to view the number of doctorate recipients by selecting the specific broad field of study. The result will be displayed in bar chart. To show citizenship status, just click that button on the left side. The default chart is stacked bar chart. Click the button saying 'show grouped citizenship status', the chart will be converted to grouped bar chart. </p>
-<p>For chart II, I use pie chart to show the age distribution of doctorate recipients. Use different option, such as broad field of study and sex, to view or compare the distribution.</p>                </article>
+<p><img alt="image1" src="https://fanyang44.github.io/images/post8_image1.png"></p>
+<p><img alt="image2" src="https://fanyang44.github.io/images/post8_image2.png"></p>
+<p><img alt="image3" src="https://fanyang44.github.io/images/post8_image3.png"></p>
+<p>From the prediction result using SVR, we can see that SVR performs well on predicting confirm cases and recover cases but not well for death cases. Considering the time cost to tune parameters using grid search with cross validation, we only tuned the hyperparameters when training the confirm dataset, and used that parameter for deaths and recover cases predictions. Tuning parameters for each prediction case if time allows may improve prediction performance.</p>
+<ul>
+<li>Prophet: It is a forecasting procedure (linear regression or logistic regression with seasonality) created by Facebook. We can easily tune it with some interpretable parameters and leave it to forecast automatically. One big reason we tried it is that in Prophet, we can add holiday effects and daily seasonality, weekly seasonality (and even yearly seasonality) to fit non-linear trends.  In the case of Covid-19, weekly seasonality matters more that other seasonalities. We tried linear function and logistic function as trend models.</li>
+</ul>
+<p><img alt="image4" src="https://fanyang44.github.io/images/post8_image4.png"></p>
+<p><img alt="image5" src="https://fanyang44.github.io/images/post8_image5.png"></p>
+<p>In these two figures, we only predicted confirm cases one day later. In the long term prediction, an obvious drop will be observed, which is realistically impossible, considering we are predicting cumulative confirm cases.</p>
+<h3>Model evaluation</h3>
+<p>Each model has its advantage in prediction accuracy, but also has some limitations.
+In particular, we have tried to use SARIMAX model and Prophet model to predict death increase rate, and Prophet performs better. However, as Prophet model basically works like a black box , that we may lack of knowledge about what exactly happens there, e.g., for daily seasonality hyperparameter, we can only control it by setting it to True or False.
+SVR models is accurate for predicting global confirmed cases and recover cases in next 10 days. Yet not so accurate on predicting death cases.
+We also apply prophet model on predicting confirm and death cases. Prediction is only accurate for several days in future. For long-term the outcome is out of our expectations. 
+One remarkable reason affecting long term prediction is the second wave of pandemic. More work is needed to be done to improve the robustness and resilience of models to deal with unknowness like the second rebound here.</p>
+<h3>References</h3>
+<p>https://github.com/CSSEGISandData/COVID-19</p>
+<p>https://plotly.com/python/scattermapbox/</p>
+<p>https://www.statsmodels.org/dev/examples/notebooks/generated/statespace_sarimax_stata.html</p>
+<p>https://www.sciencedirect.com/science/article/pii/S0960077920302538</p>
+<p>https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7390340/</p>
+<p>https://machinelearningmastery.com/time-series-forecasting-with-prophet-in-python/</p>
+<p>https://www.streamlit.io/</p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
