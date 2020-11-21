@@ -96,11 +96,11 @@ Models included:</p>
 <p><img alt="image5" src="https://fanyang44.github.io/images/post8_image5.png"></p>
 <p>In these two figures, we only predicted confirm cases one day later. In the long term prediction, an obvious drop will be observed, which is realistically impossible, considering we are predicting cumulative confirm cases.</p>
 <h3>Model evaluation</h3>
-<p>Each model has its advantage in prediction accuracy, but also has some limitations.
-In particular, we have tried to use SARIMAX model and Prophet model to predict death increase rate, and Prophet performs better. However, as Prophet model basically works like a black box , that we may lack of knowledge about what exactly happens there, e.g., for daily seasonality hyperparameter, we can only control it by setting it to True or False.
-SVR models is accurate for predicting global confirmed cases and recover cases in next 10 days. Yet not so accurate on predicting death cases.
-We also apply prophet model on predicting confirm and death cases. Prediction is only accurate for several days in future. For long-term the outcome is out of our expectations. 
-One remarkable reason affecting long term prediction is the second wave of pandemic. More work is needed to be done to improve the robustness and resilience of models to deal with unknowness like the second rebound here.</p>
+<p>Each model has its advantage in prediction accuracy, but also has some limitations.</p>
+<p>In particular, we have tried to use SARIMAX model and Prophet model to predict death increase rate, and Prophet performs better. However, as Prophet model basically works like a black box , that we may lack of knowledge about what exactly happens there, e.g., for daily seasonality hyperparameter, we can only control it by setting it to True or False.</p>
+<p>SVR models is accurate for predicting global confirmed cases and recover cases in next 10 days. Yet not so accurate on predicting death cases.</p>
+<p>We also apply prophet model on predicting confirm and death cases. Prediction is only accurate for several days in future. For long-term the outcome is out of our expectations. </p>
+<p>One remarkable reason affecting long term prediction is the second wave of pandemic. More work is needed to be done to improve the robustness and resilience of models to deal with unknowness like the second rebound here.</p>
 <h3>References</h3>
 <p>https://github.com/CSSEGISandData/COVID-19</p>
 <p>https://plotly.com/python/scattermapbox/</p>
